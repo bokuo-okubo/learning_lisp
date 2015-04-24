@@ -80,4 +80,92 @@ slice the first symbol of the conscell
 - cdr
 
 pop the second symbol of the conscell
-
+
+##4 Making Decisions with Conditions
+
+####Using Functions that returns more than Just the truth
+
+- Now let’s look at another benefit of Lisp’s simple way of thinking about true and false.
+- *member* command can be used to check for list membership for an item
+
+```
+(princ
+ (if (member 1 '(3 4 1 5))
+    "one is in the list"
+    "one is not in the list"))
+```
+
+####Comparing Stuff: eq, equal, and More
+
+There’s a lot of beautiful symmetry in Lisp. One part of Lisp that isn’t so beautiful, though, involves the commands for comparing things.
+
+--
+**CONRAD'S RULE OF THUMB FOR COMPARING STUFF**
+
+### use EQ to compare SYMBOLS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+### use EQUAL for EVERYTHING ELSE !!!!!!!!!!!!!!!!!!!!!!!
+--
+
+####The eql command 
+is similar to the eq command, but unlike eq, it also handles comparisons of numbers and characters:
+
+```;;comparing symbols > (eql 'foo 'foo)             T             ;;comparing numbers> (eql 3.4 3.4)T;;comparing characters > (eql #\a #\a)T
+```
+
+####The equalp command 
+is essentially the same as the equal command, except that it can handle some difficult comparison cases with a bit of extra sophisti- cation. For instance, it can compare strings with different capitalizations and can compare integers against floating-point numbers:
+
+```;;comparing strings with different CAPS> (equalp "Bob Smith" "bob smith")T;;comparing integers against floating point numbers > (equalp 0 0.0)T
+```
+
+
+##5 Building a text game engine.
+
+
+###The Wizard's Adventure Game
+* -spec-
+	* wecan visit three different locations
+		* a living room
+		* an attic
+		* and a garden
+* Players can move betwwn places using the door and the ladder to the attic.
+
+* Think of this game world as a simple directed praph with three nodes and four edges.
+
+* players move betwwn nodes by traveling along the edges in either direction.
+
+### Basic Requirements
+
+Our game code will need to handle a few basic things:
+
+* Looking around
+* Walking to diffrent locations
+* Picking up objects
+* Performing actions on the objects picked up
+
+When looking around in our game world, you will be able to "see" three kinds of things from any locations
+
+* basic scenery
+* One or more paths to other locations
+* Objects that you can pick up and manipulate
+
+#### Describing the Scenery with an Association List
+
+```
+(defparameter *nodes* '((living-room (you are inthe living-room.
+				      awizard is snorinf loudly on the couch.))
+			(garden (you are in abeautiful garden.
+				 there is a well in fromt of you.))
+			(attic (you are in the attic.
+				ther is a giant welding torch in the corner.))))
+
+```
+
+#### Describing the Location
+
+```
+(defparameter *edge* '((living-room (garden west door)
+
+```
+
+

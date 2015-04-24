@@ -28,3 +28,16 @@
 	((eq person 'johny) (setf *arc-enemey* 'useless-old-johnny)
 	 '(i hope you choked on my pudding johnny))
 	(t  '(why you ate my pudding stranger ?))))
+
+(princ
+ (if (member 1 '(3 4 1 5))
+    "one is in the list"
+    "one is not in the list"))
+
+(member 1 '(3 4 1 5))
+;; -> (1 5)
+
+;;like this code is more buetiful
+;; (if *file-modified*
+;;     (if (ask-user-about-saving)
+;;	        (save-file)))
