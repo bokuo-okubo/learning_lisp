@@ -169,3 +169,14 @@ When looking around in our game world, you will be able to "see" three kinds of 
 ```
 
 
+###What we've learned
+
+- *Quasiquoting* is a technique that allows you to insert small bits of computer code into larger pieces of data.
+
+- Some Lisp functions accept other functions as arguments.
+- There are called *higher-order function*
+- The **mapcar** function is the most popular higherorder function in Common Lisp.
+k
+
+## 6.  Interacting with the world: Reading and printing in Lisp
+
