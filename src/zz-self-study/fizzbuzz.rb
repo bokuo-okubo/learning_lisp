@@ -1,8 +1,2 @@
-def fizzbuzz(n)
-  str = ""
-  str << "Fizz" if (n % 3).zero? 
-  str << "Buzz" if (n % 5).zero? 
-  str.empty? ? n : str
-end
-
-p (1..100).map {|n| fizzbuzz n }
+fb = -> (n){ "#{"Fizz" if n % 3 == 0}#{"Buzz" if n % 5 == 0}" }
+(1..100).each { |n| p fb.(n).empty? ? n : fb.(n) }
