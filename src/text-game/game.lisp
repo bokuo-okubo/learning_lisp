@@ -1,3 +1,14 @@
+#|
+  CHAPTER5
+　３つのノードが存在する世界を行き来できるようなゲームを作ることを考える。
+  - Required spec
+   1. 周囲を見渡す
+   2. 別の場所に移動する
+   3. オブジェクトを拾う
+   4. 拾ったオブジェクトで何かする
+|#
+
+;;## 連想リストを使って景色を描写する
 (defparameter *nodes* '((living-room (you are in the living-room.
 				      a wizerd is snoring loudly on the couach.))
 			(garden (you are in a beautiful garden.
@@ -5,23 +16,66 @@
 			(attic (you are in the attic.
 				there is a giant welding torch in the corner.))))
 
+;; トップレベル変数*nodes* は、３つの場所、及びそれぞれの記述のリスト。
+;; *nodes*変数はキーとなる名前に結び付けられたデータを探し出すための構造といってもいい。
+;; このような構造は連想リスト[association list]あるいは縮めてalistと呼ばれている。
+;; alist の定義 ((key1 data1) (kay2 data2))
+;; assocと対応して。キーとデータの対リスト、のリスト。がalist。assocはリスト全体からkeyに対応するリストを返す。 なければnilを返す。
+
+;; Lisperは可能な限り、データをシンボルのままで扱いたい。
+
+
+;;## 情景を描写する
+;; assoc関数 -> リストの中からキーを下に欲しい要素を抜き出す
 (defun describe-location(location nodes)
   (cadr (assoc location nodes)))
+;; describe-locationで直接*node*変数を参照しないのはなぜだろうか
+;; この関数は「関数型プログラミングスタイル」で書かれているから。
+;; -> 関数は引数か、関数内で宣言された変数しか参照せず、また値を返す以外の動作をしない。
 
-;;describing the paths
+;;---------------------------------------------------------------------------------------
+;;## 通り道を描写する
 (defparameter *edges* '((living-room (garden west door)
 			             (attic apstairs ladder))
 			(garden (living-room east door))
 			(attic (living-room downstairs laddar))))
-
 (defun describe-path(edge)
   `(there is a ,(caddr edge) going ,(cadr edge) from here.))
+;; 準クォート
+#|
+- データの一部に計算された情報を埋め込む仕組み。
+` (バッククオート)でそのデータモードになったデータ列は、コードモードの埋め込み可能状態になり、
+, (カンマ) 直後のリストはコードして解釈される。
+|#
 
-;; describing multiple paths at once
 
+;;## 通り道を一度に描写する
 (defun describe-paths (location edges)
   (apply #'append (mapcar #'describe-path (cdr (assoc location edges)))))
+#|
+一番内側 (assoc location edges) は簡単。 locationをキーにして、edgesからassoc関数で描写を抜き出す
+> (cdr (assoc 'living-room *edges*))
+((GARDEN WEST DOOR) (ATTIC UPSTAIRS LADDAR))
 
+次に、得られたエッジからその描写を得る。
+> (mapcar #'describe-path '((garden west door) (attic upstairs laddar))
+((THERE IS A DOOR GOING WEST FROM HERE.))
+
+- mapcar関数
+引数に他の関数とリストを受け取って、
+リストの要素の一つ一つについてそれを引数として受け取った関数を呼び出す。
+> (mapcar #'sqrt '(1 2 3 4 5))
+(1 1.4142135 1.7320508 2 2.236068)
+
+#' function オペレータの略記法
+Lispリーダは、この記号を含む式を評価すると、内部的に次の形に変換する
+> (mapcar #'car '((foo baz) (baz qux)))
+>>>> (mapcar (function car) '((foo baz) (baz qux)))
+(foo baz)
+
+|#
+
+;;---------------------------------------------------------------------------------------
 ;; オブジェクトのリスト
 (defparameter *objects* '(whiskey bucket frog chain))
 
