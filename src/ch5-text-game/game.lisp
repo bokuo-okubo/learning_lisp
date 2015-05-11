@@ -133,8 +133,6 @@ desciribe-pathでみたような高階関数を多用するスタイルはLISP�
 ;; 3: この関数は与えられたオブジェクトが床にある、という文を、準クォートを使って創りだす。
 ;; 4: そして関数の本体では、現在の場所にある尾ぬジェクトをobjects-at関数を使って見つけ、そのオブジェクトのリストに対してdescribe-objをマップして、最後にappendで全ての描写をつなげて一つのリストにしている。
 
-
-
 ;; 現在地を保持する変数
 (defparameter *location* 'living-room)
 
@@ -187,6 +185,14 @@ desciribe-pathでみたような高階関数を多用するスタイルはLISP�
 ;; 準クオートを使えば大きなデータの中に、その一部分を計算するためのコードを埋め込むことができる
 
 ;; Adding a custom interface to Our game engine.
+(defun game-print (lst)
+  (princ (coerce (tweak-text (coerce (string-trim "() "
+              (prin1-to-string lst))
+             'list)
+           t
+           nil)
+     'string))
+  (fresh-line))
 
 (defun game-repl ()
   (let ((cmd (game-read)))
@@ -221,12 +227,3 @@ desciribe-pathでみたような高階関数を多用するスタイルはLISP�
 	     (lit (cons item (tweak-text rest nil lit)))
 	     ((or caps lit) (cons (char-upcase item) (tweak-text rest nil lit)))
 	     (t (cons (char-downcase item) (tweak-text rest nil nil)))))))
-
-(defun game-print (lst)
-  (princ (coerce (tweak-text (coerce (string-trim "() "
-						  (prin1-to-string lst))
-				     'list)
-			     t
-			     nil)
-		 'string))
-  (fresh-line))

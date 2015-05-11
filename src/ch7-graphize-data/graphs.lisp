@@ -21,7 +21,6 @@
 
 
 ;; adding labels to graph nodes.
-
 (defparameter *max-label-length* 30)
 
 (defun dot-label (exp)
@@ -56,6 +55,9 @@
 		(cdr node)))
 	edges))
 
+;; いったんコンソールに表示する
+;; REPLで関数を実行して結果をすぐに見られるので、デバッグが簡単になる。
+
 ;; Generating All the DOT data
 
 (defun graph->dot (nodes edges)
@@ -76,6 +78,14 @@
 ;; Using Thunks
 ;; It is common in Lisp to create small functions that have zero arguments.
 ;; These functions are officially called nullary functions.
+#|
+Lispでは、引数を取らない￥関数がよく使われる。
+これらの関数は正式にはゼロ項(nullary)関数と呼ばれる。
+Lisperは、いますぐに実行したくない計算を包んでおくのに、ゼロ引数の関数をよく使う。
+この目的で使われる無引数関数は通常(thunk)やサスペンション(suspension)と呼ばれている。
+今の例では、dot->pngでサンクを使うんだろう。
+
+|#
 
 
 ;; Writing to a File
