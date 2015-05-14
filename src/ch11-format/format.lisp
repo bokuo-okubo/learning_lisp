@@ -32,3 +32,50 @@ stream : データを出力ストリームに書き出す
 !erom srallod 05.1 ylno rof sgnir noino ddA
 "!erom srallod 05.1 ylno rof sgnir noino ddA"
 |#
+
+
+#|
+(format t "I am printing ~s in the middle of this sentence." "foo")
+I am printing "foo" in the middle of this sentence.
+NIL
+CL-USER> (format t "I am printing ~a in the middle of this sentence." "foo")
+I am printing foo in the middle of this sentence.
+|#
+
+
+#|
+(format t "I am printing ~10a ehit in ten spaces of room." "foo")
+I am printing foo        ehit in ten spaces of room.
+NIL
+CL-USER> (format t "I am printing ~10@a ehit in ten spaces of room." "foo")
+I am printing        foo ehit in ten spaces of room.
+NIL
+|#
+
+#|
+(format t "I am printing ~,,4a ehit in ten spaces of room." "foo")
+I am printing foo     ehit in ten spaces of room.
+NIL
+|#
+
+
+;;  (format t "The word ~,,4,'!a feels very important." "foo")
+;; The word foo!!!! feels very important.
+;; NIL
+
+
+;; 数値を整形するシーケンス
+
+;; 整数の整形
+
+;; formatは色々な基数で数値を表示できる。
+
+;; １６進数 ~x
+;; (format t "the number 1000 in hexadecimal is ~x" 1000)
+;; the number 1000 in hexadecimal is 3E8
+;; NIL
+
+;; ２進数 ~b
+;; (format t "the number 1000 in hexadecimal is ~b" 1000)
+;; the number 1000 in hexadecimal is 1111101000
+;; NIL
