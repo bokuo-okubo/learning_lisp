@@ -167,8 +167,8 @@ NIL
 
 ;; テキストを揃える機能を例で理解するために、まず文字数の異なる動物名をランダムに返す関数を作ろう
 
-(defun random-animal ()
-  (nth (random 5) '("dog" "tick" "tiger" "walrus" "kangaroo")))
+(defun random-animal()
+  (nth (random 5) '("dog" "tick" "tigar" "walrus" "kangaroo")))
 
 ;; 次に、ランダムな動物名を表にしてみる。
 ;; 表を作るには、~t 制御シーケンスが便利だ。
@@ -195,12 +195,11 @@ NIL
 ;; 一行の中で動物名がなるべく等しい距離をとって表示されるようにしてみる。
 ;; このためには、~< ~> 制御シーケンスを次のとおりに使う。
 
-(loop repeat 10do (format t "~30<~a~;~a~;~a~>~%"
-			    (random-animal)
-			    (random-animal)
-			    (random-animal)))
-
-
+(loop repeat 10
+   do (format t "~30<~a~;~a~;~a~>~%"
+	      (random-animal)
+	      (random-animal)
+	      (random-animal)))
 ;; > (loop repeat 10do (format t "~30<~a~;~a~;~a~>~%"
 ;; 			    (random-animal)
 ;; 			    (random-animal)
@@ -231,5 +230,23 @@ NIL
 |#
 
 ;; 11.6 繰り返しの制御シーケンス
+(defparameter *animals* (loop repeat 10
+			   collect (random-animal)))
 
-(defparameter *animals* (loop repeat 10 collect (random-animal)))
+(format t "~{I see a ~a! ~}" *animals*)
+
+;; I see a dog! I see a kangaroo! I see a tick! I see a kangaroo! I see a walrus! I see a tick! I see a tigar! I see a kangaroo! I see a tigar! I see a dog!
+
+;; format関数に渡した値は*animals* 一つだけであるが、　
+;; 制御シーケンスによってそのリストの各要素について、
+;; 内側のシーケンス"Iseea ~a"が適用されて文が作られる
+;;
+;; ループ一回につき複数の値をリストから取ることもできる。
+
+
+(format t "~{I see a ~a... or was it a ~a?~%~}" *animals*)
+
+;; 11.7 きれいな表を作る整形トリック
+
+;; formatの
+(format t "|~{~<|~%|~,33:;~2d ~>~}|" (loop for x below 100 collect x))
